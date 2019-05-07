@@ -1,0 +1,152 @@
+<h4>Formularios <small>template</small></h4>
+<hr>
+<form (ngSubmit)="guardar(forma)" #forma="ngForm">
+
+  <div>
+
+    <div class="form-group row " [ngClass]="{'has-danger': (nombre.errors?.minlength || nombre.errors?.required) && nombre.touched}">
+      <label class="col-2 col-form-label">Nombre</label>
+      <div class="col-8">
+
+        <input class="form-control"
+               type="text"
+               placeholder="Nombre"
+               name="nombre"
+               [(ngModel)]="usuario.nombre"
+               minlength="3"
+               required
+               #nombre="ngModel">
+
+        <div *ngIf="nombre.errors?.required  && nombre.touched" class="form-control-feedback">
+          <p>Este campo es obligatorio</p>
+        </div>
+        <div *ngIf="nombre.errors?.minlength  && nombre.touched" class="form-control-feedback">
+          <p>Este campo requiere {{ nombre.errors.minlength.requiredLength}} caracteres</p>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Apellido</label>
+      <div class="col-8">
+
+        <input class="form-control"
+               type="text"
+               placeholder="Apellido"
+               name="apellido"
+               [(ngModel)]="usuario.apellido"
+               required
+               #apellido="ngModel">
+
+               
+        <div *ngIf="apellido.errors?.required && apellido.touched">
+          <p>Este campo es obligatorio</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Correo</label>
+    <div class="col-md-8">
+
+      <input class="form-control"
+             type="email"
+             placeholder="Correo electrónico"
+             name="email"
+             [(ngModel)]="usuario.email"
+             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+             required
+             #email>
+
+             
+      <div *ngIf="email.errors?.required">
+        <p>Este campo es obligatorio</p>
+      </div>
+      <div *ngIf="email.errors?.pattern.requiredPattern">
+        <p>El correo no tiene el formato correcto</p>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="form-group row">
+    <div class="col-2 col-form-lablel">Pais</div>
+    <div class="col-md-8">
+      <select name="pais" id="pais" class="form-control">
+        <option value="">Seleccione un país</option>
+        <option *ngFor="let pais of paises" value="{{pais.codigo}}">{{pais.pais}}</option>
+
+      </select>
+    </div>
+  </div>
+
+
+
+  <div class="form-group row">
+      <div class="col-2 col-form-lablel">Sexo</div>
+      <div class="col-md-8">
+        
+          <div class="input-group" *ngFor="let s of sexos">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+              <input [(ngModel)]="usuario.sexo" type="radio" name="sexo" [value]="s" aria-label="Radio button for following text input">
+              </div>
+            </div>
+            <span type="text" aria-label="Text input with radio button">&nbsp;{{ s }}</span>
+           </div>
+<!--
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                <input [(ngModel)]="usuario.sexo" type="radio" name="sexo" value="mujer" aria-label="Radio button for following text input">
+                </div>
+              </div>
+              <span type="text" aria-label="Text input with radio button">&nbsp;Mujer</span>
+            </div>
+-->     
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+        <div class="col-2 col-form-lablel">Acepto</div>
+        <div class="col-md-8">
+          
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input [(ngModel)]="usuario.acepto" name="acepto" type="checkbox" required aria-label="Checkbox for following text input">
+              </div>
+            </div>
+            <span type="text" aria-label="Text input with radio button">&nbsp;Acepto los términos</span>
+           </div>
+
+        </div>
+      </div>
+
+
+
+
+
+
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">&nbsp;</label>
+    <div class="input-group col-md-8">
+      <button type="submit" class="btn btn-outline-primary" [disabled]="!forma.valid">
+        Guardar
+      </button>
+    </div>
+  </div>
+
+</form>
+
+<pre>
+  {{ usuario | json }}
+</pre>
